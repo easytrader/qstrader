@@ -152,7 +152,10 @@ class SimpleStatistics(AbstractStatistics):
         fig.autofmt_xdate()
 
         # Plot the figure
-        plt.show()
+        #plt.show()
+
+        #save fig
+        fig.savefig('~/StrategyCeleryWebsite/static/img/backtest_result.png')
 
     def get_filename(self, filename=""):
         if filename == "":
