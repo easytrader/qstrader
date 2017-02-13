@@ -6,6 +6,7 @@
 leo add some cmd
 
 uninstall -- sudo pip uninstall qstrader
+
 install -- sudo python setup.py install
 
 ***************************************************************************************************************************
