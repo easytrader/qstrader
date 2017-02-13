@@ -6,7 +6,7 @@
 leo add some cmd
 
 uninstall -- sudo pip uninstall qstrader
-
+install -- sudo python setup.py install
 
 ***************************************************************************************************************************
 QSTrader is an open-source event-driven backtesting and live trading platform for use in the equities markets, currently in an early "alpha" state.
