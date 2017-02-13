@@ -2,12 +2,13 @@
 [![Coverage Status](https://coveralls.io/repos/github/mhallsmoore/qstrader/badge.svg?branch=master)](https://coveralls.io/github/mhallsmoore/qstrader?branch=master)
 
 # QSTrader  
-###########################################################################################################################
+***************************************************************************************************************************
 leo add some cmd
 
 uninstall -- sudo pip uninstall qstrader
 
-############################################################################################################################
+
+***************************************************************************************************************************
 QSTrader is an open-source event-driven backtesting and live trading platform for use in the equities markets, currently in an early "alpha" state.
 
 It has been created as part of the Advanced Trading Infrastructure article series on QuantStart.com to provide the systematic trading community with a robust trading engine that allows straightforward equities/ETF strategy implementation and testing.
