@@ -155,7 +155,7 @@ class SimpleStatistics(AbstractStatistics):
         #plt.show()
 
         #save fig
-        fig.savefig('/home/leo/StrategyCeleryWebsite/static/img/backtest_result.png')
+        fig.savefig('/home/leo/github/StrategyCeleryWebsite/static/img/backtest_result.png')
 
     def get_filename(self, filename=""):
         if filename == "":
