@@ -9,7 +9,8 @@ from ..event import BarEvent
 import pandas as pd
 import sqlite3
 
-class YahooDailyCsvBarPriceHandler(AbstractBarPriceHandler):
+
+class SqliteDBBarPriceHandler(AbstractBarPriceHandler):
     """
     YahooDailyBarPriceHandler is designed to read CSV files of
     Yahoo Finance daily Open-High-Low-Close-Volume (OHLCV) data
@@ -48,8 +49,8 @@ class YahooDailyCsvBarPriceHandler(AbstractBarPriceHandler):
         the specified CSV data directory, converting them into
         them into a pandas DataFrame, stored in a dictionary.
         """
+        """
         ticker_path = os.path.join(self.csv_dir, "%s.csv" % ticker)
-
         self.tickers_data[ticker] = pd.io.parsers.read_csv(
             ticker_path, header=0, parse_dates=True,
             index_col=0, names=(
@@ -59,31 +60,30 @@ class YahooDailyCsvBarPriceHandler(AbstractBarPriceHandler):
         )
         self.tickers_data[ticker]["Ticker"] = ticker
         """
-        #print("self.tickers_data[ticker]")
-        #print(self.tickers_data[ticker])
-
-
         # Read sqlite query results into a pandas DataFrame
         con = sqlite3.connect("/home/leo/github/StrategyCeleryWebsite/db.sqlite3")
         cursor = con.cursor()
-        #ticker =  'MMM'
+        # ticker =  'MMM'
         cursor.execute("SELECT * from strategyceleryapp_symbol WHERE ticker='%s'" % ticker)
-        #print("ticker")
-        #print(ticker)
+        # print("ticker")
+        # print(ticker)
         symbol_table = cursor.fetchall()
-        #print("cursor.fetchall()")
-        #print(cursor.fetchall())
+        # print("cursor.fetchall()")
+        # print(cursor.fetchall())
 
-        #print("symbol_table")
-        #print(symbol_table)
+        # print("symbol_table")
+        # print(symbol_table)
 
         symbol_id = symbol_table[0][0]
-        #print("symbol_id")
-        #print(symbol_id)
+        # print("symbol_id")
+        # print(symbol_id)
 
-        df = pd.read_sql_query("SELECT price_date, open_price, high_price, low_price, close_price, volume, adj_close_price from strategyceleryapp_daily_price WHERE symbol_id=%d" % symbol_id, con, index_col=['price_date'])
+        df = pd.read_sql_query(
+            "SELECT price_date, open_price, high_price, low_price, close_price, volume, adj_close_price from strategyceleryapp_daily_price WHERE symbol_id=%d" % symbol_id,
+            con, index_col=['price_date'])
 
-        df = df.rename(columns={'open_price': 'Open', 'high_price': 'High', 'low_price': 'Low', 'close_price': 'Close', 'volume': 'Volume', 'adj_close_price': "Adj Close"})
+        df = df.rename(columns={'open_price': 'Open', 'high_price': 'High', 'low_price': 'Low', 'close_price': 'Close',
+                                'volume': 'Volume', 'adj_close_price': "Adj Close"})
 
         df.index.names = ['Date']
         # verify that result of SQL query is stored in the dataframe
@@ -95,7 +95,7 @@ class YahooDailyCsvBarPriceHandler(AbstractBarPriceHandler):
         self.tickers_data[ticker] = df
 
         self.tickers_data[ticker]["Ticker"] = ticker
-        """
+
 
     def _merge_sort_ticker_data(self):
         """
