@@ -33,11 +33,11 @@ class SqliteDBBarPriceHandler(AbstractBarPriceHandler):
         self.continue_backtest = True
         self.tickers = {}
         self.tickers_data = {}
+        self.start_date = start_date
+        self.end_date = end_date
         if init_tickers is not None:
             for ticker in init_tickers:
                 self.subscribe_ticker(ticker)
-        self.start_date = start_date
-        self.end_date = end_date
         self.bar_stream = self._merge_sort_ticker_data()
         self.calc_adj_returns = calc_adj_returns
         if self.calc_adj_returns:
@@ -71,24 +71,22 @@ class SqliteDBBarPriceHandler(AbstractBarPriceHandler):
         # print("cursor.fetchall()")
         # print(cursor.fetchall())
 
-        # print("symbol_table")
-        # print(symbol_table)
-
         symbol_id = symbol_table[0][0]
-        # print("symbol_id")
-        # print(symbol_id)
 
         df = pd.read_sql_query(
             "SELECT price_date, open_price, high_price, low_price, close_price, volume, adj_close_price from strategyceleryapp_daily_price WHERE symbol_id=%d" % symbol_id,
             con, index_col=['price_date'])
 
+        df.index = pd.to_datetime(df.index)
+
+        mask = (df.index > self.start_date) & (df.index <= self.end_date)
+
+        df = df.loc[mask]
+
         df = df.rename(columns={'open_price': 'Open', 'high_price': 'High', 'low_price': 'Low', 'close_price': 'Close',
                                 'volume': 'Volume', 'adj_close_price': "Adj Close"})
 
         df.index.names = ['Date']
-        # verify that result of SQL query is stored in the dataframe
-        print("print daily price head")
-        print(df.head())
 
         con.close()
 
