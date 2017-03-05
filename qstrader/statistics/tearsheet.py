@@ -608,7 +608,7 @@ class TearsheetStatistics(AbstractStatistics):
         # Plot the figure
         #plt.show()
         # save fig
-        fig.savefig('/home/leo/github/StrategyCeleryWebsite/static/img/backtest_result.png')
+        fig.savefig(os.path.expanduser('~/github/StrategyCeleryWebsite/static/img/backtest_result.png'))
 
         if filename is not None:
             fig.savefig(filename, dpi=150, bbox_inches='tight')
